@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 export const todosSlice = createSlice({
   name: "todos",
@@ -15,10 +15,22 @@ export const todosSlice = createSlice({
         completed: false,
       },
     ],
+    activeFilter: "all"
   },
   reducers: {
-    addToDo: (state, action) => {
-      state.items.push(action.payload);
+    addToDo: {   
+      reducer:(state, action) => {
+        state.items.push(action.payload);
+      },
+      prepare:({title})=>{
+        return {
+          payload:{
+          id: nanoid(),
+          title: title,
+          completed: false
+          }
+        }
+      }
     },
     toggle: (state, action) => {
       const { id } = action.payload;
@@ -27,12 +39,30 @@ export const todosSlice = createSlice({
       item.completed = !item.completed;
     },
     destroy: (state, action) => {
-        const id = action.payload;
-        const filtered = state.items.filter((item) => { return  item.id !== id })
-        state.items = filtered;
+      const id = action.payload;
+      const filtered = state.items.filter((item) => { return  item.id !== id })
+      state.items = filtered;
+    },
+    editActiveFilter: (state,action) =>{
+      state.activeFilter = action.payload;
+    },
+    clearCompleted: (state) => {
+      const filter = state.items.filter((item) => item.completed === false);
+      state.items = filter;
     }
   },
 });
 
-export const { addToDo, toggle, destroy } = todosSlice.actions;
+export const selectTodo = ((state) => state.todos.items);
+export const selectFilteredItems = (state) => {
+
+  if(state.todos.activeFilter === "all"){
+    return state.todos.items;
+  }
+
+  return state.todos.items.filter((item)=> state.todos.activeFilter === "active" ? item.completed === false : item.completed === true);
+  
+}
+
+export const { addToDo, toggle, destroy, editActiveFilter, clearCompleted} = todosSlice.actions;
 export default todosSlice.reducer;

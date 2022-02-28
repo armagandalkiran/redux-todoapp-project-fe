@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToDo } from "../redux/todos/todosSlice";
-import { nanoid } from "@reduxjs/toolkit";
 
 const Form = () => {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
+    if(!title)return
     e.preventDefault();
 
-    dispatch(addToDo({ id: nanoid(), title: title, completed: false }));
+    dispatch(addToDo({ title }));
 
     setTitle("");
   };
