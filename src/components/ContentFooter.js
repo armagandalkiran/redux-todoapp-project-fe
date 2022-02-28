@@ -1,5 +1,6 @@
 import {useSelector, useDispatch} from "react-redux";
-import { editActiveFilter, clearCompleted, selectTodo} from "../redux/todos/todosSlice";
+import {useEffect} from "react";
+import { removeAllTodoAsync, editActiveFilter, selectTodo} from "../redux/todos/todosSlice";
 
 const ContentFooter = () => {
 
@@ -7,8 +8,11 @@ const ContentFooter = () => {
     const items = useSelector(selectTodo);
     const itemsLeft = items.filter(item => { return item.completed === false }).length;
 
-    const activeFilter = useSelector(state => state.todos.activeFilter);
+    let activeFilter = useSelector(state => state.todos.activeFilter);
 
+    useEffect(()=>{
+        localStorage.setItem("activeFilter",activeFilter);
+    },[activeFilter]);
 
 
     return (
@@ -29,7 +33,7 @@ const ContentFooter = () => {
         </li>
     </ul>
 
-    <button onClick={()=> dispatch(clearCompleted())} className="clear-completed">
+    <button onClick={()=> dispatch(removeAllTodoAsync())} className="clear-completed">
         Clear completed
     </button>
 </footer>
