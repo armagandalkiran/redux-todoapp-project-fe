@@ -31,7 +31,7 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState: {
     items: [],
-    activeFilter: localStorage.getItem("activeFilter"),
+    activeFilter: localStorage.getItem("activeFilter") ? localStorage.getItem("activeFilter") : "all",
     isLoading: false,
     error: null,
     addNewIsTodoLoading: false,
