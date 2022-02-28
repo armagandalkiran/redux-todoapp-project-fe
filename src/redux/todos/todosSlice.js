@@ -3,27 +3,27 @@ import axios from "axios";
 
 
 export const getTodosAsync = createAsyncThunk("todos/getTodos/Async", async () => {
-  const res = await axios(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos`);
+  const res = await axios(`https://vast-dusk-47383.herokuapp.com/todos`);
   return res.data;
 });
 
 export const addTodoAsync = createAsyncThunk("todos/addTodoAsync", async (data) => {
-  const res = await axios.post(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos`, data);
+  const res = await axios.post(`https://vast-dusk-47383.herokuapp.com/todos`, data);
   return res.data;
 });
 
 export const toggleTodoAsync = createAsyncThunk("todos/toggleTodoAsync",async ({_id,data})=>{
-  const res = await axios.patch(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos/${_id}`, data);
+  const res = await axios.patch(`https://vast-dusk-47383.herokuapp.com/todos/${_id}`, data);
   return res.data;
 });
 
 export const removeTodoAsync = createAsyncThunk("todos/removeTodoAsync", async (_id)=>{
-  const res = await axios.delete(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos/${_id}`);
+  const res = await axios.delete(`https://vast-dusk-47383.herokuapp.com/todos/${_id}`);
   return res.data;
 });
 
 export const removeAllTodoAsync = createAsyncThunk("todos/removeAllTodoAsync", async ()=>{
-  const res = await axios.delete(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos`);
+  const res = await axios.delete(`https://vast-dusk-47383.herokuapp.com/todos`);
   return res.data;
 })
 
